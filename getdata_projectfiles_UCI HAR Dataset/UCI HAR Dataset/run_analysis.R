@@ -15,62 +15,15 @@ loadFile <- function(pFileName)
 
 ## 1 - merging datasets
 mergeTrainAndTest <- function()
-{
-  #test_x.csv is a modified file
-  testDf<- read.table("./test/test_X.csv", header=FALSE, sep=",")
-  #testDf <- getMergedTrainOrTest("test")
-  
-  trainDf <- read.table("./train/train_X.csv", header=FALSE, sep=",")
-  #trainDf <- getMergedTrainOrTest("train")
-  
+{ 
   mainMerge <- getMergedTrainAndTest("MAIN")
   labelsMerge <- getMergedTrainAndTest("LABELS")
   subjectssMerge <- getMergedTrainAndTest("SUBJECTS")
   
-  #print("testDf")
-  #print(ncol(testDf))
+  mainMerge <- getOnlyMeanAndStdDf(mainMerge)
+  fullyMerged <- getHorizontalyMergedDf(mainMerge, labelsMerge, subjectssMerge)
   
-  #print("trainDf")
-  #print(ncol(trainDf))
-  
-  trainAndTestDf <- merge(testDf, trainDf, all=T)
-  
-  return(trainAndTestDf)
-}
-
-### This functions reads files from either Train or Test
-### and returns a merged dataset (yTrain, subjectTrain, activityLabels)
-getMergedTrainOrTest <- function(pTrainOrTest)
-{
-  #
-  dfActivityLabels <- loadFile("activity_labels.txt")
-  
-  #file containing the 561 columns
-  mainDf <- loadFile( paste( paste(pTrainOrTest, paste("/X_", pTrainOrTest, sep=""), sep=""), ".txt", sep=""))
-  
-  #leaving only mean and std
-  mainDf <- getOnlyMeanAndStdDf(mainDf)
-  
-  
-  #labels from 1 to 6
-  labelsDf <- loadFile(paste( paste(pTrainOrTest,paste("/y_", pTrainOrTest, sep=""), sep=""), ".txt", sep=""))
-  
-  #subjects from 1 to 30
-  subjectsDf <- loadFile(paste( paste(pTrainOrTest,paste("/subject_", pTrainOrTest, sep=""), sep=""), ".txt", sep=""))
-  
-  #merging all the activities with the corresponding labels
-  dfLabelsNames <- merge(labelsDf, dfActivityLabels)
-  
-  #adding the subject column
-  mainDf$subject <- subjectsDf
-  
-  #adding the activty code (1-6)
-  mainDf$ActivityCode <- dfLabelsNames[, 1]
-  
-  #adding the activity name
-  mainDf$TrainActivityLabel <- dfLabelsNames[, 2]
-  
-  return (mainDf)
+  return(fullyMerged)
 }
 
 ############################
