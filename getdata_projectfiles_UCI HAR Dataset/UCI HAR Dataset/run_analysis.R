@@ -13,15 +13,15 @@ loadFile <- function(pFileName)
 }
 
 
-## 1 - merging datasets
+## 1 - merging datasets (test and train)
 mergeTrainAndTest <- function()
 { 
   mainMerge <- getMergedTrainAndTest("MAIN")
   labelsMerge <- getMergedTrainAndTest("LABELS")
-  subjectssMerge <- getMergedTrainAndTest("SUBJECTS")
+  subjectsMerge <- getMergedTrainAndTest("SUBJECTS")
   
   mainMerge <- getOnlyMeanAndStdDf(mainMerge)
-  fullyMerged <- getHorizontalyMergedDf(mainMerge, labelsMerge, subjectssMerge)
+  fullyMerged <- getHorizontalyMergedDf(mainMerge, labelsMerge, subjectsMerge)
   
   return(fullyMerged)
 }
@@ -56,6 +56,8 @@ getMergedTrainAndTest <- function(pDataSet)
     #file containing the 561 columns
     mainTrainDf <- loadFile(getMainFileName("Train"))
     mainTestDf <- loadFile(getMainFileName("Test"))
+    
+    
     #return (merge(mainTrainDf, mainTestDf, all=T))
     return (rbind(mainTrainDf, mainTestDf))
   }
@@ -111,16 +113,27 @@ getHorizontalyMergedDf <-function(pMainDf, pLabelsDf, pSubjectsDf)
  
   
   #merging all the activities with the corresponding labels
-  dfLabelsNames <- merge(pLabelsDf, dfActivityLabels)
+  #dfLabelsNames <- merge(pLabelsDf, dfActivityLabels)
   
   #adding the subject column
-  pMainDf$subject <- pSubjectsDf
+  #pMainDf$subject <- pSubjectsDf[,1]
+  
   
   #adding the activty code (1-6)
-  pMainDf$ActivityCode <- dfLabelsNames[, 1]
+  #pMainDf$ActivityCode <- dfLabelsNames[, 1]
+  
+  #activity
+  pMainDf <- cbind(pLabelsDf, pMainDf)
+  
+  #subject
+  pMainDf <- cbind(pSubjectsDf, pMainDf)
+  
+  #renaming columns
+  colnames(pMainDf)[1]<-"Subject"
+  colnames(pMainDf)[2]<-"ActivityLabel"
   
   #adding the activity name
-  pMainDf$TrainActivityLabel <- dfLabelsNames[, 2]
+  #pMainDf$TrainActivityLabel <- dfLabelsNames[, 2]
   
   return(pMainDf)
 }
@@ -129,13 +142,23 @@ getHorizontalyMergedDf <-function(pMainDf, pLabelsDf, pSubjectsDf)
 #trainAndTestDf <- mergeTrainAndTest()
 #reducedDf <- getOnlyMeanAndStdDf(trainAndTestDf)
 #joinedReducedDf <- tbl_df(reducedDf)
-
-
+#sortedBySubjAct <- arrange(fullyMerged, Subject, ActivityLabel)
+# using aggregate
+#aggregate(sortedBySubjAct[,3:5], list(subj=sortedBySubjAct$Subject), mean)
+###########
 #mainMerge <- getMergedTrainAndTest("MAIN")
 #labelsMerge <- getMergedTrainAndTest("LABELS")
 #subjectsMerge <- getMergedTrainAndTest("SUBJECTS")
 #mainMerge <- getOnlyMeanAndStdDf(mainMerge)
-#fullyMerged <- getHorizontalyMergedDf(mainMerge, labelsMerge, subjectssMerge)
+#fullyMerged <- getHorizontalyMergedDf(mainMerge, labelsMerge, subjectsMerge)
+#tblFullyMerged <- tbl_df(fullyMerged)
+
+# activ1 <- filter(tblFullyMerged, ActivityCode ==1)
+# activ2 <- filter(tblFullyMerged, ActivityCode ==2)
+# activ3 <- filter(tblFullyMerged, ActivityCode ==3)
+# activ4 <- filter(tblFullyMerged, ActivityCode ==4)
+# activ5 <- filter(tblFullyMerged, ActivityCode ==5)
+# activ6 <- filter(tblFullyMerged, ActivityCode ==6)
 ##################
 
 #require(dplyr)
@@ -181,3 +204,6 @@ getHorizontalyMergedDf <-function(pMainDf, pLabelsDf, pSubjectsDf)
 
 ## adding new columns train
 # trainDf$activity <- dfYTrain
+
+#test dataframe (pairing activities and subjects)
+#subjAndActivLabels <- data.frame(c(labelsMerge), c(subjectsMerge))
