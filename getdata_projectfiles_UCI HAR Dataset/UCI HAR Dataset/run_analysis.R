@@ -74,10 +74,10 @@ getMergedTrainAndTest <- function(pDataSet)
   else if (pDataSet=="SUBJECTS")
   {
     #labels from 1 to 6
-    subctsTrainDf <- loadFile(getSubjectsFilenaName("Train"))
+    subjectsTrainDf <- loadFile(getSubjectsFilenaName("Train"))
     subjectsTestDf <- loadFile(getSubjectsFilenaName("Test"))
     #return (merge(subctsTrainDf, subjectsTestDf, all=T))
-    return (rbind(subctsTrainDf, subjectsTestDf))
+    return (rbind(subjectsTrainDf, subjectsTestDf))
   }
   
  
@@ -145,6 +145,7 @@ getHorizontalyMergedDf <-function(pMainDf, pLabelsDf, pSubjectsDf)
 #sortedBySubjAct <- arrange(fullyMerged, Subject, ActivityLabel)
 # using aggregate
 #aggregate(sortedBySubjAct[,3:5], list(subj=sortedBySubjAct$Subject), mean)
+# x <- aggregate(. ~ c(Subject, ActivityLabel), data = fullyMerged, mean)
 ###########
 #mainMerge <- getMergedTrainAndTest("MAIN")
 #labelsMerge <- getMergedTrainAndTest("LABELS")
@@ -152,6 +153,10 @@ getHorizontalyMergedDf <-function(pMainDf, pLabelsDf, pSubjectsDf)
 #mainMerge <- getOnlyMeanAndStdDf(mainMerge)
 #fullyMerged <- getHorizontalyMergedDf(mainMerge, labelsMerge, subjectsMerge)
 #tblFullyMerged <- tbl_df(fullyMerged)
+# dfActivityLabelsNameCode <- merge (labelsMerge, dfActivityLabels)
+# cut(fullyMerged$ActivityLabel, 6, dfActivityLabels[,2])
+# aggregate(fullyMerged$ActivityLabel ~ fullyMerged$Subject, fullyMerged[, 3:ncol(fullyMerged)], mean)
+# x <- aggregate(. ~ Subject + ActivityLabel, data = fullyMerged, mean)
 
 # activ1 <- filter(tblFullyMerged, ActivityCode ==1)
 # activ2 <- filter(tblFullyMerged, ActivityCode ==2)
