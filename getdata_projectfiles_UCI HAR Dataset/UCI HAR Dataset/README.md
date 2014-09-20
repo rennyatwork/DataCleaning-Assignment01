@@ -14,3 +14,11 @@ After obtaining these 3 datasets,  mergeTrainAndTest() does the following:
 In order to obtain the tidy dataset, we can call getTidyDataSet() passing as a parameter the dataset obtained from mergeTrainAndTest() function. getTidyDataSet() renames all the measure columns by prefixing them with “AVG_”. It’s output is a text file (tidyDataSet.txt) containing 180 rows (30 subjects * 6 activities)
 If you are only interested in the final result, you can simply call generateTidyDataset().and check for the tidyDataset.txt file. It’s separator is: “;”.
 
+For the details of the resulting tidy daset, please refer to the document <a href="https://github.com/rennyatwork/DataCleaning-Assignment01/blob/master/getdata_projectfiles_UCI%20HAR%20Dataset/UCI%20HAR%20Dataset/codebook.txt"> codebook </a>
+
+-------------------
+This work is based on the datasets produced by
+
+[1] Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
+
+-----------------
