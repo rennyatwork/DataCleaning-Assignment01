@@ -6,7 +6,8 @@ initializeEnvironment <-function()
   
 }
 
-#### Aux methods
+#### Aux functions
+## This functions reads files into variables
 loadFile <- function(pFileName)
 {
   return (read.table(pFileName, header=F, sep=""))
@@ -14,6 +15,14 @@ loadFile <- function(pFileName)
 
 
 ## 1 - merging datasets (test and train)
+## This function:
+##  - gets a merge of the Main Test and Train datasets (the ones with 561 variables)
+##  - gets a merge of the Activity labels (1-6) from Test and Train datasets
+##  - gets the activity's names (WALKING, LAYING, etc)
+##  - gets a merge of the Subjets Test and Train datasets
+##  - Finally, with the Train and test datasets merged, it gets the merge of these 3 datasets
+## (Main, Activity, Subject)
+
 mergeTrainAndTest <- function()
 { 
   mainMerge <- getMergedTrainAndTest("MAIN")
@@ -31,18 +40,24 @@ mergeTrainAndTest <- function()
 }
 
 ############################
-## returns the X_[Train|Test].txt
+### Functions returning filenames to be read
+###################
+
+## This function returns the Main filename to be read.
+## E.g., returns the X_[Train|Test].txt
 getMainFileName <-function(pTrainOrTest)
 {
   return (paste( paste(pTrainOrTest, paste("/X_", pTrainOrTest, sep=""), sep=""), ".txt", sep=""))
 }
 
+## This function returns the Activity's labelsfilename to be read.
 ## returns the file path to y_[train|test].txt
 getLabelsFileName <-function(pTrainOrTest)
 {
   return(paste( paste(pTrainOrTest,paste("/y_", pTrainOrTest, sep=""), sep=""), ".txt", sep=""))
 }
 
+## This function returns the Subject filename to be read
 ## returns subject_[train|test] filename
 getSubjectsFilenaName <-function(pTrainOrTest)
 {
@@ -77,18 +92,19 @@ getMergedTrainAndTest <- function(pDataSet)
   
   else if (pDataSet=="SUBJECTS")
   {
-    #labels from 1 to 6
+    #subjects from 1 to 30
     subjectsTrainDf <- loadFile(getSubjectsFilenaName("Train"))
-    subjectsTestDf <- loadFile(getSubjectsFilenaName("Test"))
-    #return (merge(subctsTrainDf, subjectsTestDf, all=T))
+    subjectsTestDf <- loadFile(getSubjectsFilenaName("Test"))    
     return (rbind(subjectsTrainDf, subjectsTestDf))
-  }
-  
+  }  
  
 }
 
 
-## 2 - returns dataframe containing only measurements on mean and std
+
+## This function trims the dataset so that it contains only columns having
+## std or mean in its name.
+## returns dataframe containing only measurements on mean and std
 getOnlyMeanAndStdDf <-function(pTrainAndTestDf)
 {
   #getting headers
@@ -110,7 +126,9 @@ getOnlyMeanAndStdDf <-function(pTrainAndTestDf)
 
 
 ####
-#3 Horizontaly merged = adding subject and label columns
+# This function merges the 3 datasets received as parameters.
+# It merges "horizontaly" because it adds only columns
+# Horizontaly merged = adding subject and label columns
 getHorizontalyMergedDf <-function(pMainDf, pLabelsDf, pSubjectsDf)
 { 
   
@@ -124,13 +142,14 @@ getHorizontalyMergedDf <-function(pMainDf, pLabelsDf, pSubjectsDf)
   colnames(pMainDf)[1]<-"Subject"
   colnames(pMainDf)[2]<-"ActivityName"
   
-  #adding the activity name
-  #pMainDf$TrainActivityLabel <- dfLabelsNames[, 2]
-  
   return(pMainDf)
 }
 
 ## question 5
+## This function produces the tidy dataset with all the means per subject and per activity
+## Besides creating a tidy dataset, it renames the columns by prefixing them with "AVG_"
+## It then produces a filename calle tidyDataSet.txt
+## The separator used in tidyDataset.txt is ";"
 ## This is to be called after obtaining a dataset (mergeTrainAndTest())
 getTidyDataSet <-function(pMainDf)
 {
@@ -140,15 +159,20 @@ getTidyDataSet <-function(pMainDf)
   lastCol <- 2+ncol(dfMeans[,3:ncol(dfMeans)])
   for(i in 3:lastCol)
   {
-    colnames(dfMeans)[i] <- paste("AVG", colnames(dfMeans)[i], sep="_")    
-    #print("colnames(dfMeans)[i]")
-    #print(colnames(dfMeans)[i])
+    colnames(dfMeans)[i] <- paste("AVG", colnames(dfMeans)[i], sep="_")        
   }
   
   write.table(dfMeans, "tidyDataSet.txt", sep=";", row.name=F)
   return (dfMeans)
 }
 
+# This function is a wrapper that generates the tidyDataset
+# Simply run this function and check for the tidyDataset (tidyDataset.txt)
+generateTidyDataset <- function()
+{
+  fullyMerged <- mergeTrainAndTest()
+  x <- getTidyDataSet(fullyMerged)
+}
 
 
 #initializeEnvironment()
