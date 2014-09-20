@@ -18,6 +18,10 @@ mergeTrainAndTest <- function()
 { 
   mainMerge <- getMergedTrainAndTest("MAIN")
   labelsMerge <- getMergedTrainAndTest("LABELS")
+  
+  dfActivityLabels <- loadFile("activity_labels.txt")
+  labelsMerge[,1] <- factor(labelsMerge[,1], labels = dfActivityLabels[,2])
+  
   subjectsMerge <- getMergedTrainAndTest("SUBJECTS")
   
   mainMerge <- getOnlyMeanAndStdDf(mainMerge)
@@ -108,19 +112,7 @@ getOnlyMeanAndStdDf <-function(pTrainAndTestDf)
 ####
 #3 Horizontaly merged = adding subject and label columns
 getHorizontalyMergedDf <-function(pMainDf, pLabelsDf, pSubjectsDf)
-{
-  dfActivityLabels <- loadFile("activity_labels.txt")
- 
-  
-  #merging all the activities with the corresponding labels
-  #dfLabelsNames <- merge(pLabelsDf, dfActivityLabels)
-  
-  #adding the subject column
-  #pMainDf$subject <- pSubjectsDf[,1]
-  
-  
-  #adding the activty code (1-6)
-  #pMainDf$ActivityCode <- dfLabelsNames[, 1]
+{ 
   
   #activity
   pMainDf <- cbind(pLabelsDf, pMainDf)
@@ -130,12 +122,30 @@ getHorizontalyMergedDf <-function(pMainDf, pLabelsDf, pSubjectsDf)
   
   #renaming columns
   colnames(pMainDf)[1]<-"Subject"
-  colnames(pMainDf)[2]<-"ActivityLabel"
+  colnames(pMainDf)[2]<-"ActivityName"
   
   #adding the activity name
   #pMainDf$TrainActivityLabel <- dfLabelsNames[, 2]
   
   return(pMainDf)
+}
+
+## question 5
+## This is to be called after obtaining a dataset (mergeTrainAndTest())
+getTidyDataSet <-function(pMainDf)
+{
+  dfMeans <- aggregate(. ~ Subject + ActivityName, data = pMainDf, mean)
+  ## first 2 columns are subject and activity. These don't need to be renamed
+  
+  lastCol <- 2+ncol(dfMeans[,3:ncol(dfMeans)])
+  for(i in 3:lastCol)
+  {
+    colnames(dfMeans)[i] <- paste("AVG", colnames(dfMeans)[i], sep="_")    
+    #print("colnames(dfMeans)[i]")
+    #print(colnames(dfMeans)[i])
+  }
+  
+  return (dfMeans)
 }
 
 #initializeEnvironment()
@@ -146,6 +156,9 @@ getHorizontalyMergedDf <-function(pMainDf, pLabelsDf, pSubjectsDf)
 # using aggregate
 #aggregate(sortedBySubjAct[,3:5], list(subj=sortedBySubjAct$Subject), mean)
 # x <- aggregate(. ~ c(Subject, ActivityLabel), data = fullyMerged, mean)
+
+#fullyMerged <- mergeTrainAndTest()
+#x <- getTidyDataSet(fullyMerged)
 ###########
 #mainMerge <- getMergedTrainAndTest("MAIN")
 #labelsMerge <- getMergedTrainAndTest("LABELS")
