@@ -1,0 +1,115 @@
+CodeBook
+
+---------------------
+In order to produce the Tidy DataSet, we used the datasets from:
+
+[1] Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
+---------------------
+
+Below is the list of the columns in the tidy data set (TidyDataSet.txt). 
+To obtain this list of 88 columns, we conserved all the columns having either “mean” or “std” in its name from the original 561 columns (see features.txt for the list of 561 columns). 
+Besides that, we added the columns “Subject” and “ActivityName” as the first two columns (thus resulting 88).
+
+All columns prefixed with “AVG_” are averages (mean) of the variable of the same name without the prefix “AVG_”. 
+So, "AVG_tBodyAcc-mean()-X" is the average of the measure “tBodyAcc-mean()-X”,  "AVG_tBodyAcc-mean()-Y" is the average of the measure “tBodyAcc-mean()-Y”, and so on.
+
+Averages are calculated per subject and per activity.
+
+For every column prefixed with “AVG_t” and “AVG_f”, please refer to the documents “READEME.txt” and “features_info.txt”. 
+There you’ll find details about those all these variables before averaging. 
+
+As can be implied from README.txt, columns starting with “t”are related to time, while those ones starting with “f” are related to frequency. 
+In the tidy data set, these are the columns from 3 to 81.
+
+The columns starting with “angle” (82-88) are related to the “Angle between to vectors”, according to features_info.txt
+
+
+1)  "Subject" : volunteer who took part into the experiment (1-30)
+2)  "ActivityName" : one of the six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING)
+3)  "AVG_tBodyAcc-mean()-X"
+4)  "AVG_tBodyAcc-mean()-Y"
+5)  "AVG_tBodyAcc-mean()-Z"
+6)  "AVG_tBodyAcc-std()-X"
+7)  "AVG_tBodyAcc-std()-Y"
+8)  "AVG_tBodyAcc-std()-Z"
+9)  "AVG_tGravityAcc-mean()-X"
+10)  "AVG_tGravityAcc-mean()-Y"
+11)  "AVG_tGravityAcc-mean()-Z"
+12)  "AVG_tGravityAcc-std()-X"
+13)  "AVG_tGravityAcc-std()-Y"
+14)  "AVG_tGravityAcc-std()-Z"
+15)  "AVG_tBodyAccJerk-mean()-X"
+16)  "AVG_tBodyAccJerk-mean()-Y"
+17)  "AVG_tBodyAccJerk-mean()-Z"
+18)  "AVG_tBodyAccJerk-std()-X"
+19)  "AVG_tBodyAccJerk-std()-Y"
+20)  "AVG_tBodyAccJerk-std()-Z"
+21)  "AVG_tBodyGyro-mean()-X"
+22)  "AVG_tBodyGyro-mean()-Y"
+23)  "AVG_tBodyGyro-mean()-Z"
+24)  "AVG_tBodyGyro-std()-X"
+25)  "AVG_tBodyGyro-std()-Y"
+26)  "AVG_tBodyGyro-std()-Z"
+27)  "AVG_tBodyGyroJerk-mean()-X"
+28)  "AVG_tBodyGyroJerk-mean()-Y"
+29)  "AVG_tBodyGyroJerk-mean()-Z"
+30)  "AVG_tBodyGyroJerk-std()-X"
+31)  "AVG_tBodyGyroJerk-std()-Y"
+32)  "AVG_tBodyGyroJerk-std()-Z"
+33)  "AVG_tBodyAccMag-mean()"
+34)  "AVG_tBodyAccMag-std()"
+35)  "AVG_tGravityAccMag-mean()"
+36)  "AVG_tGravityAccMag-std()"
+37)  "AVG_tBodyAccJerkMag-mean()"
+38)  "AVG_tBodyAccJerkMag-std()"
+39)  "AVG_tBodyGyroMag-mean()"
+40)  "AVG_tBodyGyroMag-std()"
+41)  "AVG_tBodyGyroJerkMag-mean()"
+42)  "AVG_tBodyGyroJerkMag-std()"
+43)  "AVG_fBodyAcc-mean()-X"
+44)  "AVG_fBodyAcc-mean()-Y"
+45)  "AVG_fBodyAcc-mean()-Z"
+46)  "AVG_fBodyAcc-std()-X"
+47)  "AVG_fBodyAcc-std()-Y"
+48)  "AVG_fBodyAcc-std()-Z"
+49)  "AVG_fBodyAcc-meanFreq()-X"
+50)  "AVG_fBodyAcc-meanFreq()-Y"
+51)  "AVG_fBodyAcc-meanFreq()-Z"
+52)  "AVG_fBodyAccJerk-mean()-X"
+53)  "AVG_fBodyAccJerk-mean()-Y"
+54)  "AVG_fBodyAccJerk-mean()-Z"
+55)  "AVG_fBodyAccJerk-std()-X"
+56)  "AVG_fBodyAccJerk-std()-Y"
+57)  "AVG_fBodyAccJerk-std()-Z"
+58)  "AVG_fBodyAccJerk-meanFreq()-X"
+59)  "AVG_fBodyAccJerk-meanFreq()-Y"
+60)  "AVG_fBodyAccJerk-meanFreq()-Z"
+61)  "AVG_fBodyGyro-mean()-X"
+62)  "AVG_fBodyGyro-mean()-Y"
+63)  "AVG_fBodyGyro-mean()-Z"
+64)  "AVG_fBodyGyro-std()-X"
+65)  "AVG_fBodyGyro-std()-Y"
+66)  "AVG_fBodyGyro-std()-Z"
+67)  "AVG_fBodyGyro-meanFreq()-X"
+68)  "AVG_fBodyGyro-meanFreq()-Y"
+69)  "AVG_fBodyGyro-meanFreq()-Z"
+70)  "AVG_fBodyAccMag-mean()"
+71)  "AVG_fBodyAccMag-std()"
+72)  "AVG_fBodyAccMag-meanFreq()"
+73)  "AVG_fBodyBodyAccJerkMag-mean()"
+74)  "AVG_fBodyBodyAccJerkMag-std()"
+75)  "AVG_fBodyBodyAccJerkMag-meanFreq()"
+76)  "AVG_fBodyBodyGyroMag-mean()"
+77)  "AVG_fBodyBodyGyroMag-std()"
+78)  "AVG_fBodyBodyGyroMag-meanFreq()"
+79)  "AVG_fBodyBodyGyroJerkMag-mean()"
+80)  "AVG_fBodyBodyGyroJerkMag-std()"
+81)  "AVG_fBodyBodyGyroJerkMag-meanFreq()"
+82)  "AVG_angle(tBodyAccMean,gravity)"
+83)  "AVG_angle(tBodyAccJerkMean),gravityMean)"
+84)  "AVG_angle(tBodyGyroMean,gravityMean)"
+85)  "AVG_angle(tBodyGyroJerkMean,gravityMean)"
+86)  "AVG_angle(X,gravityMean)"
+87)  "AVG_angle(Y,gravityMean)"
+88)  "AVG_angle(Z,gravityMean)"
+
