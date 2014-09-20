@@ -145,8 +145,11 @@ getTidyDataSet <-function(pMainDf)
     #print(colnames(dfMeans)[i])
   }
   
+  write.table(dfMeans, "tidyDataSet.txt", sep=";", row.name=F)
   return (dfMeans)
 }
+
+
 
 #initializeEnvironment()
 #trainAndTestDf <- mergeTrainAndTest()
