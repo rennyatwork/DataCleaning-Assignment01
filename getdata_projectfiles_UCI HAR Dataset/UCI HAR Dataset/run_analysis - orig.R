@@ -1,4 +1,12 @@
 ## 0 - initializing environment
+initializeEnvironment <-function()
+{
+  require(dplyr)
+  require(sqldf)
+  
+}
+
+#### Aux functions
 ## This functions reads files into variables
 loadFile <- function(pFileName)
 {
@@ -166,9 +174,81 @@ generateTidyDataset <- function()
   x <- getTidyDataSet(fullyMerged)
 }
 
-##############
-# To  test:
+
+#initializeEnvironment()
+#trainAndTestDf <- mergeTrainAndTest()
+#reducedDf <- getOnlyMeanAndStdDf(trainAndTestDf)
+#joinedReducedDf <- tbl_df(reducedDf)
+#sortedBySubjAct <- arrange(fullyMerged, Subject, ActivityLabel)
+# using aggregate
+#aggregate(sortedBySubjAct[,3:5], list(subj=sortedBySubjAct$Subject), mean)
+# x <- aggregate(. ~ c(Subject, ActivityLabel), data = fullyMerged, mean)
+
 #fullyMerged <- mergeTrainAndTest()
 #x <- getTidyDataSet(fullyMerged)
-# or simply: generateTidyDataset()
 ###########
+#mainMerge <- getMergedTrainAndTest("MAIN")
+#labelsMerge <- getMergedTrainAndTest("LABELS")
+#subjectsMerge <- getMergedTrainAndTest("SUBJECTS")
+#mainMerge <- getOnlyMeanAndStdDf(mainMerge)
+#fullyMerged <- getHorizontalyMergedDf(mainMerge, labelsMerge, subjectsMerge)
+#tblFullyMerged <- tbl_df(fullyMerged)
+# dfActivityLabelsNameCode <- merge (labelsMerge, dfActivityLabels)
+# cut(fullyMerged$ActivityLabel, 6, dfActivityLabels[,2])
+# aggregate(fullyMerged$ActivityLabel ~ fullyMerged$Subject, fullyMerged[, 3:ncol(fullyMerged)], mean)
+# x <- aggregate(. ~ Subject + ActivityLabel, data = fullyMerged, mean)
+
+# activ1 <- filter(tblFullyMerged, ActivityCode ==1)
+# activ2 <- filter(tblFullyMerged, ActivityCode ==2)
+# activ3 <- filter(tblFullyMerged, ActivityCode ==3)
+# activ4 <- filter(tblFullyMerged, ActivityCode ==4)
+# activ5 <- filter(tblFullyMerged, ActivityCode ==5)
+# activ6 <- filter(tblFullyMerged, ActivityCode ==6)
+##################
+
+#require(dplyr)
+# setwd("C:\\Users\\renato\\Documents\\MOOC\\2014\\course03 - DataCleaning\\Assignment-01\\getdata_projectfiles_UCI HAR Dataset\\UCI HAR Dataset\\")
+
+#loading test data
+#testDf <- read.table("test/test_X.csv", header=FALSE, sep=",")
+#ncol(testDf)
+
+#loading training data
+# trainDf <- read.table("train/train_X.csv", header=FALSE, sep=",")
+# ncol(trainDf)
+
+#trainAndTestDf <- merge(testDf, trainDf, all=T)
+
+#setwd("C:\\Users\\renato\\Documents\\MOOC\\2014\\course03 - DataCleaning\\Assignment-01\\getdata_projectfiles_UCI HAR Dataset\\UCI HAR Dataset")
+#headersDf <- read.table("features.txt", header=F, sep="\n")
+
+#cutting off numbers before colum names
+#sub("\\d+ ", "", headersDf[,1])
+#newColNames <- sub("\\d+ ", "", headersDf[,1])
+
+#renaming columns in trainAndTestDf
+
+# indexes of columns matching either mean or std
+#meanAndStdCols <- grep("mean|std", newColNames ,ignore.case=T, value=F)
+#reducedDf <- trainAndTestDf[meanAndStdCols]
+
+## listing all .txt
+#list.files(path="./train/Inertial Signals", ignore.case=T, pattern=".txt")
+
+##using aux to load files in train, test:
+# dfYTrain <- loadFile("./train/y_train.txt")
+# dfSubjectTrain <- loadFile("./train/subject_train.txt")
+# dfActivityLabels <- loadFile("activity_labels.txt")
+## getting unique values: unique()
+
+##joining YTrain with activty labels
+#dfTrainLabels <- merge(dfYTrain, dfActivityLabels)
+
+## adding new column subject
+#trainDf$subject <- dfSubjectTrain
+
+## adding new columns train
+# trainDf$activity <- dfYTrain
+
+#test dataframe (pairing activities and subjects)
+#subjAndActivLabels <- data.frame(c(labelsMerge), c(subjectsMerge))
